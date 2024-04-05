@@ -1,5 +1,6 @@
 package com.trackmyfamily
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,17 +15,9 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.replay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 internal class MainViewModel: ViewModel() {
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return super.create(modelClass)
-            }
-        }
-    }
 
     private var uiState by mutableStateOf<MainActivityUIState>(MainActivityUIState.Loading)
 
@@ -39,6 +32,13 @@ internal class MainViewModel: ViewModel() {
         viewModelScope.launch {
             val user = Firebase.auth.currentUser
             user?.let {
+                Timber.d("user details: %s", it.metadata)
+                it.getIdToken(true).addOnCompleteListener{
+                    Timber.d("Token is : %s", it.result.token)
+                    Timber.d("Claim is : %s", it.result.claims)
+                    Timber.d("provider is : %s", it.result.signInProvider)
+                    Timber.d("second factor is : %s", it.result.signInSecondFactor)
+                }
                 uiState = MainActivityUIState.LoggedIn
             } ?: kotlin.run {
                 uiState = MainActivityUIState.TriggerLogin
