@@ -12,7 +12,12 @@
           "package_name": "com.trackmyfamily"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "503180757787-b08ff9jmbhbbqb6gg2ajv0p2ac1645np.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB9s1d6nbtin6-zr23XhmCqJN2m-aT-hKA"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503180757787-b08ff9jmbhbbqb6gg2ajv0p2ac1645np.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
