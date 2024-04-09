@@ -3,7 +3,7 @@
         id 'org.jetbrains.kotlin.jvm' version '1.9.23'
     }
 }*/
-rootProject.name = 'services'
+rootProject.name = "services"
 
-include 'commons'
-include 'loginservice'
+include (":commons", ":loginservice")
+

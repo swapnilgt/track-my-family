@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
+    id("java")
     kotlin("jvm") version "1.9.23"
 }
 
@@ -9,6 +10,7 @@ group = "com.trackmyfamily"
 version = "0.0.1-SNAPSHOT"
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 configurations {
@@ -23,7 +25,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-    //implementation(":commons")
+    implementation(project(":commons"))
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -34,6 +36,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-kotlin {
-    jvmToolchain(17)
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
 }
