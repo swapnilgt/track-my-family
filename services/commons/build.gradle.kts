@@ -4,6 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     id("java")
     kotlin("jvm") version "1.9.23"
+    kotlin("kapt") version "1.9.23"
 }
 
 group = "com.trackmyfamily"
@@ -26,6 +27,9 @@ repositories {
 dependencies {
     implementation(platform("org.springframework.boot:spring-boot-dependencies:3.2.4"))
     implementation("org.springframework.boot:spring-boot")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    kapt("org.aspectj:aspectjweaver")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("junit:junit:4.13.2")
     implementation(kotlin("stdlib-jdk8"))
