@@ -16,9 +16,7 @@ class Authenticator {
     @Order(0)
     @Around("@annotation(com.trackmyfamily.commons.annotations.Authenticated)")
     fun proceed(call: ProceedingJoinPoint): Any {
-        System.out.println("Hey I am here ....")
-        throw RuntimeException("la la la")
-        //return call.proceed()
+        return call.proceed()
     }
 
 }
