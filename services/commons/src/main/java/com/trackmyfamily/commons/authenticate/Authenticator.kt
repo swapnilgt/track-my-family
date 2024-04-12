@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component
 @Order(0)
 class Authenticator {
 
+    // Solution for aspect working - https://stackoverflow.com/a/77438231/2606411
+
     @Order(0)
     @Around("@annotation(com.trackmyfamily.commons.annotations.Authenticated)")
     fun proceed(call: ProceedingJoinPoint): Any {
