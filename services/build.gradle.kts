@@ -26,6 +26,12 @@ allprojects {
         sourceCompatibility = JavaVersion.VERSION_17
     }
 
+    configurations {
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
