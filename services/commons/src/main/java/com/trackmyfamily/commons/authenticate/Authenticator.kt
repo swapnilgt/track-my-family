@@ -2,10 +2,13 @@ package com.trackmyfamily.commons.authenticate
 
 import com.trackmyfamily.commons.CandidateAuthentication
 import com.trackmyfamily.commons.authenticate.models.UnauthorizedException
+import com.trackmyfamily.commons.service.FirebaseAuthService
 import jakarta.servlet.http.HttpServletRequest
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
 import org.springframework.security.core.context.SecurityContextHolder
@@ -14,7 +17,14 @@ import org.springframework.stereotype.Component
 @Component
 @Aspect
 @Order(0)
-class Authenticator {
+class Authenticator private constructor() {
+
+    private lateinit var context: ApplicationContext
+
+    @Autowired
+    constructor(context: ApplicationContext) : this() {
+        this.context = context
+    }
 
     // Solution for aspect working - https://stackoverflow.com/a/77438231/2606411
 
@@ -30,6 +40,11 @@ class Authenticator {
         val request = authentication.request
         if(canAuthenticate(request)) {
             // Authenticate using firebase admin SDK
+            context.getBean(FirebaseAuthService::class.java)
+            .authenticateToken(
+                request.getHeader(HttpHeaders.AUTHORIZATION)
+                    .replace("Bearer ", "")
+            )
         } else {
             throw UnauthorizedException("BEARER_TOKEN_NOT_FOUND")
         }
