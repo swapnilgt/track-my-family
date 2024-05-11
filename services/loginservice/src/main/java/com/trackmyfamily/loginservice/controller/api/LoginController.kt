@@ -14,5 +14,4 @@ class LoginController {
     fun onboardUserV1(): OnboardUserResponseV1 {
         return OnboardUserResponseV1("temp")
     }
-    
 }

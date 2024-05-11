@@ -1,5 +1,6 @@
 package com.trackmyfamily.commons.authenticate
 
+import com.trackmyfamily.commons.ApplicationContextProvider
 import com.trackmyfamily.commons.CandidateAuthentication
 import com.trackmyfamily.commons.authenticate.models.UnauthorizedException
 import com.trackmyfamily.commons.service.FirebaseAuthService
@@ -17,14 +18,9 @@ import org.springframework.stereotype.Component
 @Component
 @Aspect
 @Order(0)
-class Authenticator private constructor() {
+class Authenticator constructor() {
 
-    private lateinit var context: ApplicationContext
-
-    @Autowired
-    constructor(context: ApplicationContext) : this() {
-        this.context = context
-    }
+    private val context: ApplicationContext = ApplicationContextProvider.getApplicationContext()
 
     // Solution for aspect working - https://stackoverflow.com/a/77438231/2606411
 

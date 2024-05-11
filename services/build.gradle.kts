@@ -43,6 +43,7 @@ allprojects {
         annotationProcessor("org.projectlombok:lombok")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         implementation(kotlin("stdlib-jdk8"))
+        implementation("org.aspectj:aspectjrt:1.9.22")
     }
 
     tasks.withType<KotlinCompile> {
