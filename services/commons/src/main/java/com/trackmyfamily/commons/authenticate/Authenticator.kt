@@ -1,5 +1,6 @@
 package com.trackmyfamily.commons.authenticate
 
+import com.google.firebase.auth.FirebaseAuthException
 import com.trackmyfamily.commons.ApplicationContextProvider
 import com.trackmyfamily.commons.CandidateAuthentication
 import com.trackmyfamily.commons.authenticate.models.UnauthorizedException
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpHeaders
@@ -36,11 +36,17 @@ class Authenticator constructor() {
         val request = authentication.request
         if(canAuthenticate(request)) {
             // Authenticate using firebase admin SDK
-            context.getBean(FirebaseAuthService::class.java)
-            .authenticateToken(
-                request.getHeader(HttpHeaders.AUTHORIZATION)
-                    .replace("Bearer ", "")
-            )
+            try {
+                context.getBean(FirebaseAuthService::class.java)
+                .authenticateToken(
+                    request.getHeader(HttpHeaders.AUTHORIZATION)
+                        .replace("Bearer ", "")
+                )
+            } catch (e: IllegalArgumentException) {
+                throw UnauthorizedException.wrap(e)
+            } catch (e: FirebaseAuthException) {
+                throw UnauthorizedException.wrap(e)
+            }
         } else {
             throw UnauthorizedException("BEARER_TOKEN_NOT_FOUND")
         }
