@@ -11,11 +11,11 @@ data class DecodedToken(
 ) {
     companion object {
 
-        fun to(from: FirebaseToken): DecodedToken {
+        fun from(input: FirebaseToken): DecodedToken {
             return DecodedToken(
-                from.name,
-                from.email,
-                from.claims
+                input.name,
+                input.email,
+                input.claims
             )
         }
 

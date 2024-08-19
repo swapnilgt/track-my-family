@@ -20,6 +20,6 @@ class FirebaseAuthService(keyPath: String): AuthService {
     }
 
     override fun authenticateToken(token: String): DecodedToken {
-        return DecodedToken.to(FirebaseAuth.getInstance().verifyIdToken(token))
+        return DecodedToken.from(FirebaseAuth.getInstance().verifyIdToken(token))
     }
 }
