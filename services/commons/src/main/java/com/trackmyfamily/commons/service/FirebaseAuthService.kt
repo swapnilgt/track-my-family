@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.trackmyfamily.commons.authenticate.models.DecodedToken
 import org.springframework.stereotype.Service
 import java.io.FileInputStream
 
@@ -18,7 +19,7 @@ class FirebaseAuthService(keyPath: String): AuthService {
         FirebaseApp.initializeApp(options)
     }
 
-    override fun authenticateToken(token: String) {
-        val decodedToken = FirebaseAuth.getInstance().verifyIdToken(token)
+    override fun authenticateToken(token: String): DecodedToken {
+        return DecodedToken.to(FirebaseAuth.getInstance().verifyIdToken(token))
     }
 }

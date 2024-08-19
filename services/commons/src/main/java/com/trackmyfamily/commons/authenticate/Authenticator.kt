@@ -3,6 +3,7 @@ package com.trackmyfamily.commons.authenticate
 import com.google.firebase.auth.FirebaseAuthException
 import com.trackmyfamily.commons.ApplicationContextProvider
 import com.trackmyfamily.commons.CandidateAuthentication
+import com.trackmyfamily.commons.authenticate.models.AuthenticationObj
 import com.trackmyfamily.commons.authenticate.models.UnauthorizedException
 import com.trackmyfamily.commons.service.FirebaseAuthService
 import jakarta.servlet.http.HttpServletRequest
@@ -37,11 +38,13 @@ class Authenticator constructor() {
         if(canAuthenticate(request)) {
             // Authenticate using firebase admin SDK
             try {
-                context.getBean(FirebaseAuthService::class.java)
+                val decodedToken = context.getBean(FirebaseAuthService::class.java)
                 .authenticateToken(
                     request.getHeader(HttpHeaders.AUTHORIZATION)
                         .replace("Bearer ", "")
                 )
+                SecurityContextHolder.getContext().authentication =
+                    AuthenticationObj(decodedToken.email, decodedToken.name, decodedToken)
             } catch (e: IllegalArgumentException) {
                 throw UnauthorizedException.wrap(e)
             } catch (e: FirebaseAuthException) {
